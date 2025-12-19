@@ -1,0 +1,35 @@
+{
+  "name": "@cle-does-things/dirgrep",
+  "version": "0.1.0",
+  "description": "Simple and intuitive CLI tool to perform grep operations directory-wise.",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "golang-npm install",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AstraBert/dirgrep.git"
+  },
+  "keywords": [
+    "cli",
+    "grep",
+    "filesystem",
+    "directory",
+    "search"
+  ],
+  "author": "Clelia Astra Bertelli",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AstraBert/dirgrep/issues"
+  },
+  "homepage": "https://github.com/AstraBert/dirgrep#readme",
+  "dependencies": {
+    "golang-npm": "^0.0.6"
+  },
+  "goBinary": {
+    "name": "dirgrep",
+    "path": "./bin",
+    "url": "https://github.com/AstraBert/dirgrep/releases/download/v{{version}}/dirgrep_{{version}}_{{platform}}_{{arch}}.tar.gz"
+  }
+}

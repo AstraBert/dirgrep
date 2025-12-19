@@ -21,10 +21,10 @@ var rootCmd = &cobra.Command{
 	Long:  "dirgrep is a simple and intuitive CLI tool that can perform grep operations within a specific diectory (recursively or not). Powered by concurrent Go, with love.",
 	Run: func(cmd *cobra.Command, args []string) {
 		if showHelp {
-			cmd.Help()
+			_ = cmd.Help()
 		} else if pattern == "" {
 			fmt.Println("Missing required option: `pattern`")
-			cmd.Help()
+			_ = cmd.Help()
 		} else {
 			mp, err := GrepMany(pattern, directory, recursive, toSkip, contextWindow)
 			if err != nil {
@@ -59,5 +59,5 @@ func init() {
 	rootCmd.Flags().IntVarP(&contextWindow, "context", "c", 0, "The context to add to the matches (number of charachters). Defaults to 0 if not used")
 	rootCmd.Flags().BoolVarP(&showHelp, "help", "h", false, "Show the help message and exit.")
 
-	rootCmd.MarkFlagRequired("pattern")
+	_ = rootCmd.MarkFlagRequired("pattern")
 }

@@ -1,6 +1,6 @@
 module github.com/AstraBert/dirgrep
 
-go 1.24.5
+go 1.23
 
 require (
 	github.com/rvfet/rich-go v0.0.0-20240930071213-51f43e596c0d
