@@ -1,9 +1,12 @@
 package cmd
 
 import (
+	"context"
 	"fmt"
+	"log"
 	"os"
 
+	"github.com/modelcontextprotocol/go-sdk/mcp"
 	"github.com/rvfet/rich-go"
 	"github.com/spf13/cobra"
 )
@@ -44,6 +47,20 @@ var rootCmd = &cobra.Command{
 	},
 }
 
+var mcpCmd = &cobra.Command{
+	Use:   "mcp",
+	Short: "Start a stdio MCP server powered by dirgrep",
+	Long:  "Start an MCP server (over stdio transport) that allows you to perform the directory-wise grep operations, powered by dirgrep.",
+	Run: func(cmd *cobra.Command, args []string) {
+		server := GetMcpServer()
+		log.Println("Starting dirgrep MCP server...")
+		if err := server.Run(context.Background(), &mcp.StdioTransport{}); err != nil {
+			log.Fatal(err)
+			os.Exit(1)
+		}
+	},
+}
+
 func Execute() {
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Fprintf(os.Stderr, "Oops. An error while executing dirgrep '%s'\n", err)
@@ -58,6 +75,8 @@ func init() {
 	rootCmd.Flags().BoolVarP(&recursive, "recursive", "r", false, "Whether or not to search for files to grep recursively. Defaults to false if not used")
 	rootCmd.Flags().IntVarP(&contextWindow, "context", "c", 0, "The context to add to the matches (number of charachters). Defaults to 0 if not used")
 	rootCmd.Flags().BoolVarP(&showHelp, "help", "h", false, "Show the help message and exit.")
+
+	rootCmd.AddCommand(mcpCmd)
 
 	_ = rootCmd.MarkFlagRequired("pattern")
 }

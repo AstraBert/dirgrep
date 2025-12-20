@@ -34,8 +34,12 @@ In this last case, be careful to specify your OS (supported: linux, windows, mac
 ## Usage
 
 ```bash
-dirgrep [flags]
+dirgrep [command] [flags]
 ```
+
+**Commands**
+
+- `mcp`: Start an MCP server over stdio transport
 
 **Flags**
 
@@ -66,6 +70,8 @@ dirgrep --pattern 'package main' --skip .git --skip .github --recursive
 dirgrep --pattern 'root' --directory cmd/
 # add a context of 200 charachters around the match
 dirgrep --pattern '202\d' --context 200
+# start MCP server
+dirgrep mcp
 ```
 
 ## Contributing
