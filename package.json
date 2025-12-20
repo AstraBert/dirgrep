@@ -1,7 +1,7 @@
 {
   "name": "@cle-does-things/dirgrep",
-  "version": "0.1.0",
-  "description": "Simple and intuitive CLI tool to perform grep operations directory-wise.",
+  "version": "0.2.0",
+  "description": "Simple and intuitive CLI tool and MCP server to perform grep operations directory-wise.",
   "main": "index.js",
   "scripts": {
     "postinstall": "golang-npm install",
@@ -15,7 +15,7 @@
     "cli",
     "grep",
     "filesystem",
-    "directory",
+    "mcp",
     "search"
   ],
   "author": "Clelia Astra Bertelli",

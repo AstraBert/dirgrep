@@ -37,7 +37,7 @@ func TestGrepMany(t *testing.T) {
 		expected      []string
 	}{
 		{"../testfiles/", true, []string{}, 0, `simple text file(\?|\!)`, []string{"../testfiles/hello.txt", "../testfiles/skip/greetings.txt"}},
-		{"../testfiles/", false, []string{}, 0, `simple text file(\?|\!)`, []string{"../testfiles/hello.txt"}},
+		{"../testfiles/", false, []string{"skip"}, 0, `simple text file(\?|\!)`, []string{"../testfiles/hello.txt"}},
 		{"../testfiles/", true, []string{}, 0, "in voluptate velit", []string{"../testfiles/loremipsum/part1.txt", "../testfiles/loremipsum/part2.txt"}},
 		{"../testfiles/", true, []string{}, 1, "in voluptate velit", []string{" [bold red]in voluptate velit[/] "}},
 	}
