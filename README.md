@@ -4,22 +4,75 @@
 
 Written in Go, it leverages the language built-in concurrency feature to execute grep operations concurrently on all files within a directory (even recursively!).
 
-## Usage
+## Install
 
-```text
-dirgrep is a simple and intuitive CLI tool that can perform grep operations within a specific diectory (recursively or not). Powered by concurrent Go, with love.
+In order to install **dirgrep** there are three ways:
 
-Usage:
-  dirgrep [flags]
+1. Using `go`: if you already have `go` 1.23+ installed in your environment, installing **dirgrep** is effortless
 
-Flags:
-  -c, --context int        The context to add to the matches (number of charachters). Defaults to 0 if not used
-  -d, --directory string   The directory to search for the pattern in. Defaults to the current working directory if not specified. (default ".")
-  -h, --help               Show the help message and exit.
-  -p, --pattern string     Pattern to search for within the given directory. Required.
-  -r, --recursive          Whether or not to search for files to grep recursively. Defaults to false if not used
-  -s, --skip strings       One or more sub-directories to skip. Can be used multiple times, can be used with comma-separated values. Defaults to an empty list.
+```bash
+go install github.com/AstraBert/dirgrep
 ```
 
-### More docs to come!
+2. Using `npm`:
+
+```bash
+npm install @cle-does-things/dirgrep
+```
+
+3. Downloading the executable from the [releases page](https://github.com/AstraBert/dirgrep/releases): you can download it directly from the GitHub repository or, if you do not want to leave your terminal, you can use `curl`:
+
+```bash
+curl -L -o dirgrep https://github.com/AstraBert/dirgrep/releases/download/<version>/dirgrep_<version>_<OS>_<processor>.tar.gz ## e.g. https://github.com/AstraBert/dirgrep/releases/download/0.1.1/dirgrep_0.1.1_darwin_amd64.tar.gz
+
+# make sure the downloaded binary is executable (not needed for Windows)
+chmod +x dirgrep
+```
+
+In this last case, be careful to specify your OS (supported: linux, windows, macos) and your processor type (supported: amd, arm).
+
+## Usage
+
+```bash
+dirgrep [flags]
+```
+
+**Flags**
+
+- `-c`, `--context int`  
+  Number of characters of context to include around matches. Defaults to `0`.
+
+- `-d`, `--directory string`  
+  Directory to search for the pattern. Defaults to the current working directory (`"."`).
+
+- `-h`, `--help`  
+  Show the help message and exit.
+
+- `-p`, `--pattern string`  
+  Pattern to search for within the given directory. **Required.**
+
+- `-r`, `--recursive`  
+  Search files recursively. Defaults to `false`.
+
+- `-s`, `--skip strings`  
+  One or more sub-directories to skip. Can be specified multiple times or as comma-separated values. Defaults to an empty list.
+
+**Examples**
+
+```bash
+# search for 'package main' in the current directory, excluding .git and .gitub
+dirgrep --pattern 'package main' --skip .git --skip .github --recursive
+# search in a specific directory non-recursively
+dirgrep --pattern 'root' --directory cmd/
+# add a context of 200 charachters around the match
+dirgrep --pattern '202\d' --context 200
+```
+
+## Contributing
+
+We welcome contributions! Please read our [Contributing Guide](./CONTRIBUTING.md) to get started.
+
+## License
+
+This project is licensed under the [MIT License](./LICENSE)
 
