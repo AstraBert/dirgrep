@@ -74,6 +74,32 @@ dirgrep --pattern '202\d' --context 200
 dirgrep mcp
 ```
 
+## Benchmark
+
+> _Python 3.9+ is required for running the benchmark_
+
+You can run the [benchmark for `dirgrep`](./benchmark/) using:
+
+```bash
+cd benchmark
+bash run.sh
+```
+
+This will:
+
+- Create 1 million files (approx. 4GB) under the `benchmark/files` directory, containing three random lines each.
+- Start `./dirgrep` search for the pattern `A password forgot itself at dawn.` (one of the random lines), redirecting the standard output to `benchmark.txt`
+- Once the program is finished, you will have the time output for it. 
+
+In the latest run, `dirgrep` performed as follows:
+
+| Metric | Value | Description |
+|--------|-------|-------------|
+| user | 32.84s | CPU time in user mode (program code) |
+| system | 301.70s | CPU time in system mode (kernel operations) |
+| cpu | 927% | CPU utilization across all cores |
+| total | 36.053s | Actual elapsed wall-clock time |
+
 ## Contributing
 
 We welcome contributions! Please read our [Contributing Guide](./CONTRIBUTING.md) to get started.
