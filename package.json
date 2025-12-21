@@ -1,6 +1,6 @@
 {
   "name": "@cle-does-things/dirgrep",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Simple and intuitive CLI tool and MCP server to perform grep operations directory-wise.",
   "main": "index.js",
   "scripts": {
