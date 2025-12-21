@@ -32,8 +32,10 @@ func grepOne(pattern string, file string, contextWindow int, ch chan<- map[strin
 					}
 				}
 			}
-			mp := map[string][]string{file: sts}
-			ch <- mp
+			if len(sts) > 0 {
+				mp := map[string][]string{file: sts}
+				ch <- mp
+			}
 		}
 	}
 }
