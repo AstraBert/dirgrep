@@ -14,10 +14,11 @@ type DirGrepParams struct {
 	Context   int      `json:"context" jsonschema:"Context padding around the match (number of charachters)."`
 	SkipDirs  []string `json:"skip_dirs" jsonschema:"Directories to skip for the grep operations. Common choices might be '.venv', 'node_modules', '.git'"`
 	Recursive bool     `json:"recursive" jsonschema:"Whether or not to perform the grep operations recursively within the specified directory"`
+	Pretty    bool     `json:"pretty" jsonschema:"Whether or not to retrieve results with match highlighting (most of the times not needed)"`
 }
 
 func DirGrep(ctx context.Context, req *mcp.CallToolRequest, args DirGrepParams) (*mcp.CallToolResult, any, error) {
-	res, err := GrepMany(args.Pattern, args.Directory, args.Recursive, args.SkipDirs, args.Context)
+	res, err := GrepMany(args.Pattern, args.Directory, args.Recursive, args.Pretty, args.SkipDirs, args.Context)
 	if err != nil {
 		return &mcp.CallToolResult{
 			IsError: true,

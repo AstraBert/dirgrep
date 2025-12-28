@@ -15,6 +15,7 @@ var pattern string
 var directory string
 var contextWindow int
 var recursive bool
+var noPretty bool
 var toSkip []string
 var showHelp bool
 
@@ -29,17 +30,24 @@ var rootCmd = &cobra.Command{
 			fmt.Println("Missing required option: `pattern`")
 			_ = cmd.Help()
 		} else {
-			mp, err := GrepMany(pattern, directory, recursive, toSkip, contextWindow)
+			mp, err := GrepMany(pattern, directory, recursive, !noPretty, toSkip, contextWindow)
 			if err != nil {
 				fmt.Fprintf(os.Stderr, "Oops. An error while executing dirgrep '%s'\n", err)
 				os.Exit(1)
 			} else {
-				rich.Print("[bold green]MATCHES[/]\n")
+				if !noPretty {
+					rich.Print("[bold green]MATCHES[/]\n")
+				}
 				for k := range mp {
 					for _, v := range mp[k] {
-						rich.Print("File: [bold white]" + k + "[/]\n")
-						rich.Print(v)
-						fmt.Println()
+						if !noPretty {
+							rich.Print("File: [bold white]" + k + "[/]\n")
+							rich.Print(v)
+							fmt.Println()
+						} else {
+							fmt.Printf("%s\n--------------\n%v\n", k, v)
+							fmt.Println()
+						}
 					}
 				}
 			}
@@ -73,6 +81,7 @@ func init() {
 	rootCmd.Flags().StringVarP(&pattern, "pattern", "p", "", "Pattern to search for within the given directory. Required.")
 	rootCmd.Flags().StringVarP(&directory, "directory", "d", ".", "The directory to search for the pattern in. Defaults to the current working directory if not specified.")
 	rootCmd.Flags().BoolVarP(&recursive, "recursive", "r", false, "Whether or not to search for files to grep recursively. Defaults to false if not used")
+	rootCmd.Flags().BoolVarP(&noPretty, "no-pretty", "x", false, "Whether or not to deactivate pretty-printing results. Pretty-printing is active by default")
 	rootCmd.Flags().IntVarP(&contextWindow, "context", "c", 0, "The context to add to the matches (number of charachters). Defaults to 0 if not used")
 	rootCmd.Flags().BoolVarP(&showHelp, "help", "h", false, "Show the help message and exit.")
 
