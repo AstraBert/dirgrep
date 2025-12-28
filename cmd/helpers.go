@@ -8,7 +8,7 @@ import (
 	"sync"
 )
 
-func grepOne(pattern string, file string, contextWindow int, ch chan<- map[string][]string, wg *sync.WaitGroup) {
+func grepOne(pattern string, file string, contextWindow int, pretty bool, ch chan<- map[string][]string, wg *sync.WaitGroup) {
 	defer wg.Done()
 
 	re, err := regexp.Compile(pattern)
@@ -26,7 +26,12 @@ func grepOne(pattern string, file string, contextWindow int, ch chan<- map[strin
 							minC := max(0, loc[i]-contextWindow)
 							maxC := min(len(content), loc[i+1]+contextWindow)
 							st := string(content[minC:maxC])
-							highlighted := re.ReplaceAllString(st, "[bold red]$0[/]")
+							var highlighted string
+							if pretty {
+								highlighted = re.ReplaceAllString(st, "[bold red]$0[/]")
+							} else {
+								highlighted = st
+							}
 							sts = append(sts, highlighted)
 						}
 					}
@@ -40,7 +45,7 @@ func grepOne(pattern string, file string, contextWindow int, ch chan<- map[strin
 	}
 }
 
-func GrepMany(pattern string, directory string, recursive bool, skipDirs []string, contextWindow int) (map[string][]string, error) {
+func GrepMany(pattern, directory string, recursive, pretty bool, skipDirs []string, contextWindow int) (map[string][]string, error) {
 	files, err := getFilesInDir(directory, recursive, skipDirs)
 	if err != nil {
 		return nil, err
@@ -49,7 +54,7 @@ func GrepMany(pattern string, directory string, recursive bool, skipDirs []strin
 	var wg sync.WaitGroup
 	for _, fl := range files {
 		wg.Add(1)
-		go grepOne(pattern, fl, contextWindow, ch, &wg)
+		go grepOne(pattern, fl, contextWindow, pretty, ch, &wg)
 	}
 	go func() {
 		wg.Wait()

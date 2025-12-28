@@ -25,7 +25,7 @@ func TestMcpServer(t *testing.T) {
 	}
 	res, err := clientSession.CallTool(ctx, &mcp.CallToolParams{
 		Name:      "dirgrep",
-		Arguments: map[string]any{"directory": "../testfiles", "pattern": "in voluptate velit", "recursive": true, "skip_dirs": []string{"skip"}, "context": 1},
+		Arguments: map[string]any{"directory": "../testfiles", "pattern": "in voluptate velit", "recursive": true, "skip_dirs": []string{"skip"}, "context": 1, "pretty": true},
 	})
 	if err != nil {
 		t.Errorf("Expecting tool call to succeed, got error %s", err.Error())

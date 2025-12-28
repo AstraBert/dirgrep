@@ -61,6 +61,9 @@ dirgrep [command] [flags]
 - `-s`, `--skip strings`  
   One or more sub-directories to skip. Can be specified multiple times or as comma-separated values. Defaults to an empty list.
 
+- `-x`, `--no-pretty`
+  Deactivate pretty-printing for the matches to the console.
+
 **Examples**
 
 ```bash
@@ -70,6 +73,8 @@ dirgrep --pattern 'package main' --skip .git --skip .github --recursive
 dirgrep --pattern 'root' --directory cmd/
 # add a context of 200 charachters around the match
 dirgrep --pattern '202\d' --context 200
+# deactivate pretty-printing
+dirgrep --pattern '202\d' --context 100 --no-pretty
 # start MCP server
 dirgrep mcp
 ```
@@ -78,7 +83,7 @@ dirgrep mcp
 
 > _Python 3.9+ is required for running the benchmark_
 
-You can run the [benchmark for `dirgrep`](./benchmark/) using:
+You can run the [benchmark for `dirgrep`](./benchmark/) (VS other tools) using:
 
 ```bash
 cd benchmark
@@ -88,17 +93,19 @@ bash run.sh
 This will:
 
 - Create 1 million files (approx. 4GB) under the `benchmark/files` directory, containing three random lines each.
-- Start `./dirgrep` search for the pattern `A password forgot itself at dawn.` (one of the random lines), redirecting the standard output to `benchmark.txt`
+- Start `./dirgrep` search for the pattern `A password forgot itself at dawn.` (one of the random lines), redirecting the standard output to `benchmark_dirgrep.txt`
+- Start `grep` search recursively for the same pattern, redirecting the standard output to `benchmark_grep.txt`
+- Start `ripgrep` search recursively for the same pattern, redirecting the standard output to `benchmark_ripgrep.txt`
 - Once the program is finished, you will have the time output for it. 
 
-In the latest run, `dirgrep` performed as follows:
+In the latest run, `dirgrep` VS other tools performed as follows:
 
-| Metric | Value | Description |
-|--------|-------|-------------|
-| user | 32.84s | CPU time in user mode (program code) |
-| system | 301.70s | CPU time in system mode (kernel operations) |
-| cpu | 927% | CPU utilization across all cores |
-| total | 36.053s | Actual elapsed wall-clock time |
+| Metric     | dirgrep     | grep        | ripgrep     | Description                          |
+|------------|-------------|-------------|-------------|--------------------------------------|
+| user       | 35.58s      | 1.53s       | 2.06s       | CPU time in user mode (program code) |
+| system     | 454.60s     | 27.67s      | 38.44s      | CPU time in system mode (kernel ops) |
+| cpu        | 1166%       | 17%         | 312%        | CPU utilization across all cores     |
+| **total**  | **42.037s** | **166.34s** | **12.940s** | Actual elapsed wall-clock time       |
 
 ## Contributing
 

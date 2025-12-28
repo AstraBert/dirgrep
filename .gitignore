@@ -1,3 +1,4 @@
 dirgrep
 .env
 benchmark/files/
+benchmark*.txt

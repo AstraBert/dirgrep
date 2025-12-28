@@ -43,7 +43,7 @@ func TestGrepMany(t *testing.T) {
 	}
 	for _, tc := range testCases {
 		if tc.contextWindow == 0 {
-			res, err := GrepMany(tc.pattern, tc.directory, tc.recursive, tc.toSkip, tc.contextWindow)
+			res, err := GrepMany(tc.pattern, tc.directory, tc.recursive, true, tc.toSkip, tc.contextWindow)
 			if err != nil {
 				t.Errorf("No expecting any error, got %s", err.Error())
 			}
@@ -59,7 +59,7 @@ func TestGrepMany(t *testing.T) {
 				}
 			}
 		} else {
-			res, err := GrepMany(tc.pattern, tc.directory, tc.recursive, tc.toSkip, tc.contextWindow)
+			res, err := GrepMany(tc.pattern, tc.directory, tc.recursive, true, tc.toSkip, tc.contextWindow)
 			if err != nil {
 				t.Errorf("No expecting any error, got %s", err.Error())
 			}
